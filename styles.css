@@ -1,0 +1,13 @@
+#bookshelf {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+
+}
+
+
+
+.book-card {
+    background-color: darkred;
+    padding: 1em;
+}
