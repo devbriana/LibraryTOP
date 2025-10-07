@@ -1,4 +1,6 @@
-const newBookButton = document.getElementById('new-book-button')
+const newBookButton = document.getElementById('new-book-button');
+const bookDialog = document.getElementById('book-dialog');
+const bookForm = document.getElementById('book-form');
 
 const myLibrary = [];
 
@@ -20,29 +22,49 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 
-addBookToLibrary("Goosebumps: Welcome to Dead House", "R.L. Stine", 123, false);
-addBookToLibrary("Junie B. Jones and the Stupid Smelly Bus", "Barbara Park", 96, true);
-addBookToLibrary("Diary of a Wimpy Kid", "Jeff Kinney", 221, false);
-addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Dav Pilkey", 144, true);
-addBookToLibrary("Goosebumps: Welcome to Dead House", "R.L. Stine", 123, false);
-addBookToLibrary("Junie B. Jones and the Stupid Smelly Bus", "Barbara Park", 96, true);
-addBookToLibrary("Diary of a Wimpy Kid", "Jeff Kinney", 221, false);
-addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Dav Pilkey", 144, true);
+addBookToLibrary("Goosebumps: Welcome to Dead House", "R.L. Stine", 123, "In Progress");
+addBookToLibrary("Junie B. Jones and the Stupid Smelly Bus", "Barbara Park", 96, "Completed");
+addBookToLibrary("Diary of a Wimpy Kid", "Jeff Kinney", 221, "In Progress");
+addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Dav Pilkey", 144, "Completed");
+addBookToLibrary("Goosebumps: Welcome to Dead House", "R.L. Stine", 123, "In Progress");
+addBookToLibrary("Junie B. Jones and the Stupid Smelly Bus", "Barbara Park", 96, "To Read");
+addBookToLibrary("Diary of a Wimpy Kid", "Jeff Kinney", 221, "In Progress");
+addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Dav Pilkey", 144, "To Read");
 
 console.log(myLibrary);
 
 function displayBooks() {
   const bookshelf = document.getElementById("bookshelf");
+
+  // sorting books based on read status 
+  const statusOrder = {
+    "Completed": 1,
+    "In Progress": 2,
+    "To Read": 3
+  };
+
+  const sortedLibrary = myLibrary.slice().sort((a, b) => {
+    return statusOrder[a.read] - statusOrder[b.read];
+  });
  
-  myLibrary.forEach((book) => {
+  sortedLibrary.forEach((book) => {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("book-card")
+
+       // Sorting background color based on read status
+       if (book.read === "Completed") {
+        cardDiv.style.backgroundColor = "#1e5d2f";
+      } else if (book.read === "In Progress") {
+        cardDiv.style.backgroundColor = "#b17e07"; 
+      } else if (book.read === "To Read") {
+        cardDiv.style.backgroundColor = "#8b0000";
+      }
 
   cardDiv.innerHTML = `
     <h3>${book.title}</h3>
     <p><strong>Author:</strong> ${book.author}</p>
     <p><strong>Pages Read:</strong> ${book.pages}</p>
-    <p><strong>Read:</strong> ${book.read ? "Yes" : "No"}</p>
+    <p><strong>Read:</strong> ${book.read}</p>
   `
 
   bookshelf.appendChild(cardDiv);
@@ -53,8 +75,34 @@ displayBooks();
 
 // New book button functionality
 
-newBookButton.addEventListener("click", displayForm())
+newBookButton.addEventListener("click", () => {
+  bookDialog.showModal();
+})
 
-function displayForm() {
-  
-}
+// submit form functionality 
+
+bookForm.addEventListener("submit", (event) => {
+  event.preventDefault(); // // stops dialog from submitting to a server
+
+  const title = document.getElementById("title").value.trim();
+  const author = document.getElementById("author").value.trim();
+  const pages = document.getElementById("pages").value.trim();
+  const read = document.querySelector('input[name="readStatus"]:checked').value;
+
+
+  let readFormatted = "";
+  if (read === "completed") readFormatted = "Completed";
+  else if (read === "in-progress") readFormatted = "In Progress";
+  else if (read === "to-read") readFormatted = "To Read";
+
+  addBookToLibrary(title, author, pages, readFormatted);
+
+  // Refresh displayed books
+  document.getElementById("bookshelf").innerHTML = ""; // clear old cards
+  displayBooks();
+
+  // Close dialog and reset form
+  bookDialog.close();
+  bookForm.reset();
+
+})
