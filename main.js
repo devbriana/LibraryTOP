@@ -33,8 +33,14 @@ addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Da
 
 console.log(myLibrary);
 
+
+
+
+
 function displayBooks() {
   const bookshelf = document.getElementById("bookshelf");
+  // Refresh displayed books
+  bookshelf.innerHTML = ""; // clear old cards
 
   // sorting books based on read status 
   const statusOrder = {
@@ -47,6 +53,7 @@ function displayBooks() {
     return statusOrder[a.read] - statusOrder[b.read];
   });
  
+  // FOR EACH BOOK
   sortedLibrary.forEach((book) => {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("book-card")
@@ -59,15 +66,79 @@ function displayBooks() {
       } else if (book.read === "To Read") {
         cardDiv.style.backgroundColor = "#8b0000";
       }
+  
+  // card content
+    cardDiv.innerHTML = `
+      <h3>${book.title}</h3>
+      <p><strong>Author:</strong> ${book.author}</p>
+      <p><strong>Pages Read:</strong> ${book.pages}</p>
+      <p><strong>Read:</strong> ${book.read}</p>
 
-  cardDiv.innerHTML = `
-    <h3>${book.title}</h3>
-    <p><strong>Author:</strong> ${book.author}</p>
-    <p><strong>Pages Read:</strong> ${book.pages}</p>
-    <p><strong>Read:</strong> ${book.read}</p>
+      <div class="card-actions">
+        <button class="edit" aria-label="Edit Book"><img src="icons/edit.svg" alt="Edit Book"></button>
+        <button class="trash" aria-label="Delete Book"><img src="icons/trash.svg" alt="Delete Book"></button>
+      </div>
+
   `
+    // add card to bookshelf
+    bookshelf.appendChild(cardDiv);
 
-  bookshelf.appendChild(cardDiv);
+     // 🔹 Delete listener
+    cardDiv.querySelector(".trash").addEventListener("click", () => {
+      const index = myLibrary.findIndex(item => item.id === book.id);
+      myLibrary.splice(index, 1);
+      document.getElementById("bookshelf").innerHTML = "";
+      displayBooks();
+    });
+
+
+
+
+
+
+
+    // 🔹 Edit listener
+    cardDiv.querySelector(".edit").addEventListener("click", () => {
+      // Prefill the form with the current book data
+      document.getElementById("title").value = book.title;
+      document.getElementById("author").value = book.author;
+      document.getElementById("pages").value = book.pages;
+      document.querySelector(`input[value="${book.read.toLowerCase().replace(' ', '-')}"]`).checked = true;
+
+      // Show the dialog
+      bookDialog.showModal();
+
+      // Temporary submit handler to update this book
+      const editSubmitHandler = (event) => {
+      event.preventDefault();
+
+    // Update the book object directly
+    book.title = document.getElementById("title").value.trim();
+    book.author = document.getElementById("author").value.trim();
+    book.pages = document.getElementById("pages").value.trim();
+    const readVal = document.querySelector('input[name="readStatus"]:checked').value;
+    book.read = readVal === "completed" ? "Completed" : readVal === "in-progress" ? "In Progress" : "To Read";
+
+    // Refresh display
+    displayBooks();
+
+    // Close dialog and reset form
+    bookDialog.close();
+    bookForm.reset();
+
+    // Remove this temporary listener
+    bookForm.removeEventListener("submit", editSubmitHandler);
+  };
+
+  // Attach temporary listener
+  bookForm.addEventListener("submit", editSubmitHandler);
+});
+
+
+
+
+
+
   })
 }
 
@@ -96,9 +167,6 @@ bookForm.addEventListener("submit", (event) => {
   else if (read === "to-read") readFormatted = "To Read";
 
   addBookToLibrary(title, author, pages, readFormatted);
-
-  // Refresh displayed books
-  document.getElementById("bookshelf").innerHTML = ""; // clear old cards
   displayBooks();
 
   // Close dialog and reset form

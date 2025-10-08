@@ -10,4 +10,26 @@
 .book-card {
     background-color: #1e5d2f;
     padding: 1em;
+    position: relative;
+}
+
+.card-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.card-actions > button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.card-actions > .edit > img, 
+.card-actions > .trash > img {
+    height: 1.5em;
+    display: inline;
+    color: navy;
+    filter: invert(1);
 }
