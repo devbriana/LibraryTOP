@@ -21,11 +21,8 @@
             <label for="author">Author:</label>
             <input type="text" name="author" id="author" placeholder="Paulo Coelho" required>
             
-            <label for="pages">Pages Read:</label>
-            <input type="text" name="pages" id="pages" placeholder="25" required>
-            
             <fieldset>
-                <legend>Reading Status</legend>                
+              <legend>Reading Status</legend>                
               
                 <label for="status-completed">
                   <input type="radio" id="status-completed" name="readStatus" value="completed" required>
@@ -38,10 +35,14 @@
                 </label>
 
                 <label for="status-to-read">
-                    <input type="radio" id="status-to-read" name="readStatus" value="to-read">
-                    To Read
-                  </label>
-              </fieldset>
+                  <input type="radio" id="status-to-read" name="readStatus" value="to-read">
+                  To Read
+                </label>
+            </fieldset>
+
+            <label for="pages">Pages Read:</label>
+            <input type="text" name="pages" id="pages" placeholder="25" required>
+
               <button type="submit">Add To Library</button>
         </form>
     </dialog>

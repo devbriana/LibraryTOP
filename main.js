@@ -83,7 +83,7 @@ function displayBooks() {
     // add card to bookshelf
     bookshelf.appendChild(cardDiv);
 
-     // 🔹 Delete listener
+     // Delete listener
     cardDiv.querySelector(".trash").addEventListener("click", () => {
       const index = myLibrary.findIndex(item => item.id === book.id);
       myLibrary.splice(index, 1);
@@ -97,7 +97,7 @@ function displayBooks() {
 
 
 
-    // 🔹 Edit listener
+    // Edit listener
     cardDiv.querySelector(".edit").addEventListener("click", () => {
       // Prefill the form with the current book data
       document.getElementById("title").value = book.title;
@@ -108,41 +108,47 @@ function displayBooks() {
       // Show the dialog
       bookDialog.showModal();
 
+
+      // Temporarily disable the default "add" submit listener
+      bookForm.removeEventListener("submit", addSubmitHandler);
+
       // Temporary submit handler to update this book
       const editSubmitHandler = (event) => {
-      event.preventDefault();
+        event.preventDefault();
 
-    // Update the book object directly
-    book.title = document.getElementById("title").value.trim();
-    book.author = document.getElementById("author").value.trim();
-    book.pages = document.getElementById("pages").value.trim();
-    const readVal = document.querySelector('input[name="readStatus"]:checked').value;
-    book.read = readVal === "completed" ? "Completed" : readVal === "in-progress" ? "In Progress" : "To Read";
+        // Update the book object directly
+        book.title = document.getElementById("title").value.trim();
+        book.author = document.getElementById("author").value.trim();
+        book.pages = document.getElementById("pages").value.trim();
+        const readVal = document.querySelector('input[name="readStatus"]:checked').value;
+        book.read = readVal === "completed" ? "Completed" : readVal === "in-progress" ? "In Progress" : "To Read";
 
-    // Refresh display
-    displayBooks();
+        // Refresh display
+        displayBooks();
 
-    // Close dialog and reset form
-    bookDialog.close();
-    bookForm.reset();
+        // Close dialog and reset form
+        bookDialog.close();
+        bookForm.reset();
 
-    // Remove this temporary listener
-    bookForm.removeEventListener("submit", editSubmitHandler);
-  };
+        // Remove this temporary listener
+        bookForm.removeEventListener("submit", editSubmitHandler);
+        // Add back original listener
+        bookForm.addEventListener("submit", addSubmitHandler);
 
-  // Attach temporary listener
-  bookForm.addEventListener("submit", editSubmitHandler);
-});
+      };
 
-
-
-
-
-
-  })
+      // Attach temporary listener
+      bookForm.addEventListener("submit", editSubmitHandler);
+    });
+  });
 }
 
 displayBooks();
+
+
+
+
+
 
 // New book button functionality
 
@@ -152,8 +158,8 @@ newBookButton.addEventListener("click", () => {
 
 // submit form functionality 
 
-bookForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // // stops dialog from submitting to a server
+function addSubmitHandler(event) {
+  event.preventDefault(); // stops dialog from submitting to a server
 
   const title = document.getElementById("title").value.trim();
   const author = document.getElementById("author").value.trim();
@@ -172,5 +178,7 @@ bookForm.addEventListener("submit", (event) => {
   // Close dialog and reset form
   bookDialog.close();
   bookForm.reset();
+  
+}
+bookForm.addEventListener("submit", addSubmitHandler);
 
-})
