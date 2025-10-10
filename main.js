@@ -37,6 +37,9 @@ console.log(myLibrary);
 
 
 
+
+
+
 function displayBooks() {
   const bookshelf = document.getElementById("bookshelf");
   // Refresh displayed books
@@ -71,17 +74,26 @@ function displayBooks() {
     cardDiv.innerHTML = `
       <h3>${book.title}</h3>
       <p><strong>Author:</strong> ${book.author}</p>
-      <p><strong>Pages Read:</strong> ${book.pages}</p>
       <p><strong>Read:</strong> ${book.read}</p>
+      <p class="pages-section"><strong>Pages Read:</strong> ${book.pages}</p>
+
 
       <div class="card-actions">
         <button class="edit" aria-label="Edit Book"><img src="icons/edit.svg" alt="Edit Book"></button>
         <button class="trash" aria-label="Delete Book"><img src="icons/trash.svg" alt="Delete Book"></button>
       </div>
 
-  `
+    `;
+
+    if (book.read !== "In Progress") {
+      const pagesSection = cardDiv.querySelector(".pages-section");
+      if (pagesSection) pagesSection.style.display = "none";
+    }
+
     // add card to bookshelf
     bookshelf.appendChild(cardDiv);
+
+  
 
      // Delete listener
     cardDiv.querySelector(".trash").addEventListener("click", () => {
@@ -155,6 +167,24 @@ displayBooks();
 newBookButton.addEventListener("click", () => {
   bookDialog.showModal();
 })
+
+// Pages read enable/disable
+const pagesInput = document.getElementById("pages");
+const readStatusRadios = document.querySelectorAll('input[name="readStatus"]');
+
+readStatusRadios.forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "in-progress") {
+      pagesInput.disabled = false;
+      pagesInput.style.backgroundColor = "white";
+    } else {
+      pagesInput.value = "";
+      pagesInput.disabled = true;
+      pagesInput.style.backgroundColor = "#ccc";
+    }
+  });
+});
+
 
 // submit form functionality 
 

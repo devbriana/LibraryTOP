@@ -1,8 +1,17 @@
+body {
+    background-image: url(bookshelf.jpg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #cac280;
+    
+}
+
 #bookshelf {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
-
 }
 
 
