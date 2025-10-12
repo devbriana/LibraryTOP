@@ -26,11 +26,18 @@ addBookToLibrary("Goosebumps: Welcome to Dead House", "R.L. Stine", 123, "In Pro
 addBookToLibrary("Junie B. Jones and the Stupid Smelly Bus", "Barbara Park", 96, "Completed");
 addBookToLibrary("Diary of a Wimpy Kid", "Jeff Kinney", 221, "In Progress");
 addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Dav Pilkey", 144, "Completed");
-addBookToLibrary("Goosebumps: Welcome to Dead House", "R.L. Stine", 123, "In Progress");
-addBookToLibrary("Junie B. Jones and the Stupid Smelly Bus", "Barbara Park", 96, "To Read");
-addBookToLibrary("Diary of a Wimpy Kid", "Jeff Kinney", 221, "In Progress");
-addBookToLibrary("Captain Underpants and the Attack of the Talking Toilets", "Dav Pilkey", 144, "To Read");
-
+addBookToLibrary("Book Five", "Author", 123, "In Progress");
+addBookToLibrary("Book Six", "Author", 96, "To Read");
+addBookToLibrary("Book Seven", "Author", 221, "In Progress");
+addBookToLibrary("Book Eight", "Author", 144, "To Read");
+addBookToLibrary("Book Nine", "Author", 123, "In Progress");
+addBookToLibrary("Book Ten", "Author", 96, "Completed");
+addBookToLibrary("Book Eleven", "Author", 221, "In Progress");
+addBookToLibrary("Book Twelve", "Author", 144, "Completed");
+addBookToLibrary("Book Thirteen", "Author", 123, "In Progress");
+addBookToLibrary("Book Fourteen", "Author", 96, "To Read");
+addBookToLibrary("Book Fifteen", "Author", 221, "In Progress");
+addBookToLibrary("Book Sixteen", "Author", 144, "To Read");
 console.log(myLibrary);
 
 
@@ -72,12 +79,14 @@ function displayBooks() {
   
   // card content
     cardDiv.innerHTML = `
-      <h3>${book.title}</h3>
-      <p><strong>Author:</strong> ${book.author}</p>
-      <p><strong>Read:</strong> ${book.read}</p>
+      <h3 class="title-css">${book.title}</h3>
+      <p class="auth-css"><strong>Author:</strong> ${book.author}</p>
+      <p class="read-css"><strong>Read:</strong> ${book.read}</p>
       <p class="pages-section"><strong>Pages Read:</strong> ${book.pages}</p>
 
-
+      <div class="exp-collapse">
+        <button class="toggle-off" aria-label="Toggle Book"><img src="icons/toggleOff.svg" alt="Toggle Book"></button>
+      </div>
       <div class="card-actions">
         <button class="edit" aria-label="Edit Book"><img src="icons/edit.svg" alt="Edit Book"></button>
         <button class="trash" aria-label="Delete Book"><img src="icons/trash.svg" alt="Delete Book"></button>
@@ -93,7 +102,24 @@ function displayBooks() {
     // add card to bookshelf
     bookshelf.appendChild(cardDiv);
 
-  
+    // toggle expand and minimize
+    const toggleBtn = cardDiv.querySelector(".toggle-off");
+
+    toggleBtn.addEventListener("click", () => {
+      const isExpanded = cardDiv.classList.toggle("expanded");
+
+      const img = toggleBtn.querySelector("img");
+      img.src = isExpanded ? "icons/toggleOn.svg" : "icons/toggleOff.svg";
+
+      // Dim other books
+      const allCards = document.querySelectorAll(".book-card");
+      allCards.forEach(card => {
+        if (card !== cardDiv) {
+            if (isExpanded) card.classList.add("dimmed");
+            else card.classList.remove("dimmed");
+        }
+      });
+    });
 
      // Delete listener
     cardDiv.querySelector(".trash").addEventListener("click", () => {
@@ -102,11 +128,6 @@ function displayBooks() {
       document.getElementById("bookshelf").innerHTML = "";
       displayBooks();
     });
-
-
-
-
-
 
 
     // Edit listener
@@ -156,6 +177,10 @@ function displayBooks() {
 }
 
 displayBooks();
+
+
+
+
 
 
 

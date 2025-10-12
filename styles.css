@@ -1,34 +1,48 @@
 body {
-    background-image: url(bookshelf.jpg);
-    background-size: contain;
+    background-color: #786451;
+    position: relative;
+    background-image: url(library.jpg);
     background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #cac280;
-    
+
+
 }
 
 #bookshelf {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 3em .5em;
+    padding: 3em;
 }
 
 
 
 .book-card {
     background-color: #1e5d2f;
-    padding: 1em;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 2px 30px 10px;
+    width: 5rem;                /* narrow like a book spine */
+    height: 12rem;              /* same as your shelf row height */
+    overflow: hidden;           /* hide extra text */
+    border-radius: 0.25rem;
+    transition: all 0.4s ease;  /* for smooth expanding effect */
+    box-shadow: -7px 7px 10px black;
 }
 
 .card-actions {
     position: absolute;
     top: 8px;
     right: 8px;
+    display: flex;           
+    align-items: center;      
+
 }
 
-.card-actions > button {
+.card-actions > button,
+.exp-collapse > button {
     background: none;
     border: none;
     padding: 0;
@@ -41,4 +55,90 @@ body {
     display: inline;
     color: navy;
     filter: invert(1);
+    
+}
+
+.exp-collapse > .toggle-off > img {
+    height: 2em;
+    filter: invert(0);
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+
+.book-card > .title-css,
+.book-card > .auth-css {
+    writing-mode: vertical-rl;
+    white-space: wrap;
+    text-overflow: ellipsis;
+    font-size: 1em;
+}
+
+.book-card > .auth-css {
+    writing-mode: horizontal-tb;
+}
+
+.book-card > .read-css,
+.book-card > .pages-section {
+    display: none;
+}
+
+
+
+/* book card expanded */
+
+
+
+.book-card.expanded {
+    min-width: 400px;
+    max-width: 1fr;
+    writing-mode: horizontal-tb;
+    overflow: visible;
+    white-space: normal;
+    padding: 1rem;
+    margin: 2rem;
+    z-index: 1;
+
+    position: fixed;          
+    top: 50%;                 
+    left: 50%;                
+    transform: translate(-50%, -50%);
+    border-radius: 0.25rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
+    box-shadow: -7px 7px 10px black;
+
+}
+
+
+
+
+.book-card.expanded .read-css,
+.book-card.expanded .pages-section {
+    display: block;
+}
+
+.book-card.expanded .title-css {
+    writing-mode: horizontal-tb;
+}
+
+.book-card.dimmed {
+    opacity: 0.3;          /* fade other books */
+    pointer-events: none;  /* prevent clicking while dimmed */
+    transition: opacity 0.3s ease;
+}
+
+#new-book-button {
+    cursor: pointer;
+    display: block;
+    background-color: #322a23;
+    color: beige;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
 }
