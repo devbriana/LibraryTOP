@@ -9,7 +9,18 @@ body {
 
 }
 
+h1 {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(219, 198, 170);
+    font-size: 2rem;
+    border-bottom: 1px solid rgb(219, 198, 170) ;
+}
+
 #bookshelf {
+    margin-top: 3rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 3em .5em;
@@ -141,4 +152,17 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
+}
+
+
+/* Form Styling */
+
+#book-dialog {
+    background-color: rgb(219, 198, 170) ;
+}
+
+#book-dialog > #book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
