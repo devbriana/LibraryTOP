@@ -69,8 +69,8 @@ h1 {
     
 }
 
-.exp-collapse > .toggle-off > img {
-    height: 2em;
+.exp-collapse > .expand > img {
+    height: 1.5em;
     filter: invert(0);
     position: absolute;
     right: 5px;
@@ -158,11 +158,68 @@ h1 {
 /* Form Styling */
 
 #book-dialog {
-    background-color: rgb(219, 198, 170) ;
+    background-color: rgb(131, 106, 74) ;
+    border: none;
+    box-shadow: -7px 7px 10px black;;
+}
+
+#book-dialog img {
+    height: 1.5em;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    cursor: pointer;
 }
 
 #book-dialog > #book-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 1.5rem;
+    color: rgb(44, 33, 17);
+    align-items: center;
+    width: 30vw;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+
+#book-dialog > #book-form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#book-dialog > #book-form > div > fieldset {
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed rgb(53, 34, 12);
+}
+
+#book-dialog > #book-form > div > fieldset > label {
+    font-weight: 100;
+    padding: 3px;
+    cursor: pointer;
+
+}
+
+#book-dialog > #book-form > div > fieldset > label > input {
+    cursor: pointer;
+}
+
+#book-dialog > #book-form > #radio-pages {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+
+}
+
+#book-dialog > #book-form > #radio-pages > div {
+    display: flex;
+}
+
+
+#book-dialog > #book-form > #radio-pages > div > input {
+    width: 40px;
+    height: 20px;
 }

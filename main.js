@@ -1,6 +1,7 @@
 const newBookButton = document.getElementById('new-book-button');
 const bookDialog = document.getElementById('book-dialog');
 const bookForm = document.getElementById('book-form');
+const closeForm = document.getElementById('close-form')
 
 const myLibrary = [];
 
@@ -85,7 +86,7 @@ function displayBooks() {
       <p class="pages-section"><strong>Pages Read:</strong> ${book.pages}</p>
 
       <div class="exp-collapse">
-        <button class="toggle-off" aria-label="Toggle Book"><img src="icons/toggleOff.svg" alt="Toggle Book"></button>
+        <button class="expand" aria-label="Expand Book"><img src="icons/expand.svg" alt="Expand Book"></button>
       </div>
       <div class="card-actions">
         <button class="edit" aria-label="Edit Book"><img src="icons/edit.svg" alt="Edit Book"></button>
@@ -103,13 +104,13 @@ function displayBooks() {
     bookshelf.appendChild(cardDiv);
 
     // toggle expand and minimize
-    const toggleBtn = cardDiv.querySelector(".toggle-off");
+    const expandBtn = cardDiv.querySelector(".expand");
 
-    toggleBtn.addEventListener("click", () => {
+    expandBtn.addEventListener("click", () => {
       const isExpanded = cardDiv.classList.toggle("expanded");
 
-      const img = toggleBtn.querySelector("img");
-      img.src = isExpanded ? "icons/toggleOn.svg" : "icons/toggleOff.svg";
+      const img = expandBtn.querySelector("img");
+      img.src = isExpanded ? "icons/minimize.svg" : "icons/expand.svg";
 
       // Dim other books
       const allCards = document.querySelectorAll(".book-card");
@@ -237,3 +238,9 @@ function addSubmitHandler(event) {
 }
 bookForm.addEventListener("submit", addSubmitHandler);
 
+// close form functionality 
+
+closeForm.addEventListener("click", () => {
+  bookDialog.close();
+  bookForm.reset();
+})
