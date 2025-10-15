@@ -89,6 +89,7 @@ function displayBooks() {
         <button class="expand" aria-label="Expand Book"><img src="icons/expand.svg" alt="Expand Book"></button>
       </div>
       <div class="card-actions">
+        <button class="pages-hover" aria-label="View Pages Read"><img src="icons/pagesHover.svg" alt="Pages read"></button>
         <button class="edit" aria-label="Edit Book"><img src="icons/edit.svg" alt="Edit Book"></button>
         <button class="trash" aria-label="Delete Book"><img src="icons/trash.svg" alt="Delete Book"></button>
       </div>
@@ -180,12 +181,39 @@ function displayBooks() {
 displayBooks();
 
 
+// Book prototype function
+Book.prototype.quickInfo = function() {
+  if (this.read !== "In Progress") {
+    return `This book is ${this.read}`
+  } else {
+      return `You are on page ${this.pages}`
+  }
+}
 
-
-
-
-
-
+// pages hover listener / function 
+// STILL NEEDS WORK
+const pageHover = document.querySelectorAll('.pages-hover')
+      pageHover.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          // find the book this image belongs to
+          const bookId = card.dataset.bookId; // e.g., <img data-book-id="123" ...>
+          const book = myLibrary.find(b => b.id === bookId);
+      
+          if (book) {
+            // show tooltip or console log the quickInfo
+            console.log("Mouse entered image");
+            console.log(book.quickInfo());
+            // you could also display it in a span or tooltip
+          }
+        });
+      
+        card.addEventListener('mouseleave', () => {
+          // hide tooltip or remove hover effect
+          console.log("Mouse left image");
+        });
+      });
+        
+// STILL NEEDS WORK
 
 
 // New book button functionality
