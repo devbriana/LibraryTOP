@@ -41,13 +41,14 @@ h1 {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 50px 2px 30px 10px;
+    padding: 50px 12px 30px 12px;
     width: 5rem;                /* narrow like a book spine */
     height: 12rem;              /* same as your shelf row height */
     overflow: hidden;           /* hide extra text */
     border-radius: 0.25rem;
     transition: all 0.4s ease;  /* for smooth expanding effect */
     box-shadow: -7px 7px 10px black;
+    align-items: center;
 }
 
 .card-actions {
@@ -113,8 +114,19 @@ h1 {
     font-size: 1em;
 }
 
+.book-card > .title-css {
+    
+    max-height: 65%;
+    text-align: center;
+}
+
 .book-card > .auth-css {
     writing-mode: horizontal-tb;
+    position: absolute;
+    bottom: 10px;
+    border-top: solid 1px black; 
+    display: flex;
+    flex-direction: column;   
 }
 
 .book-card > .read-css,
@@ -151,6 +163,12 @@ h1 {
 
 
 
+.book-card.expanded .auth-css {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
 
 .book-card.expanded .read-css,
 .book-card.expanded .pages-section {
@@ -181,6 +199,10 @@ h1 {
     z-index: 1;
 }
 
+#new-book-button:hover {
+    filter: invert(1);
+}
+
 
 /* Form Styling */
 
@@ -198,6 +220,10 @@ h1 {
     cursor: pointer;
 }
 
+#book-dialog img:hover {
+    filter: invert(1);
+}
+
 #book-dialog > #book-form {
     display: flex;
     flex-direction: column;
@@ -207,6 +233,8 @@ h1 {
     width: 30vw;
     font-size: 1.1rem;
     font-weight: 700;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 
@@ -250,3 +278,35 @@ h1 {
     width: 40px;
     height: 20px;
 }
+
+#book-dialog > #book-form > button {
+    background-color: #e8d7c7;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#book-dialog > #book-form > button:hover {
+   filter: invert(1);
+}
+
+/* Prototype dialog Book.info styling */
+
+#book-info-dialog {
+    background: rgba(40, 36, 31, 0.95);
+    color: beige;    
+    border: none;
+    border: 1px solid beige;
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 1rem;
+    z-index: 1000;
+    position: fixed;
+    top: 50%;
+
+}
+
+
+  
+
+ 
