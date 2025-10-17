@@ -2,9 +2,11 @@ const newBookButton = document.getElementById('new-book-button');
 const bookDialog = document.getElementById('book-dialog');
 const bookForm = document.getElementById('book-form');
 const closeForm = document.getElementById('close-form')
+const bookshelf = document.getElementById("bookshelf");
 
 const myLibrary = [];
 
+// Book object
 function Book (title, author, pages, read) {
     this.id = crypto.randomUUID();  // unique ID
     this.title = title;
@@ -39,44 +41,38 @@ addBookToLibrary("Book Thirteen", "Author", 123, "In Progress");
 addBookToLibrary("Book Fourteen", "Author", 96, "To Read");
 addBookToLibrary("Book Fifteen", "Author", 221, "In Progress");
 addBookToLibrary("Book Sixteen", "Author", 144, "To Read");
-console.log(myLibrary);
 
 
 
 
-
-
-
-
+// Display Books function
 function displayBooks() {
-  const bookshelf = document.getElementById("bookshelf");
   // Refresh displayed books
   bookshelf.innerHTML = ""; // clear old cards
-
   // sorting books based on read status 
   const statusOrder = {
     "Completed": 1,
     "In Progress": 2,
     "To Read": 3
   };
-
   const sortedLibrary = myLibrary.slice().sort((a, b) => {
     return statusOrder[a.read] - statusOrder[b.read];
   });
  
-  // FOR EACH BOOK
+  // FOR EACH BOOK (after sorting)
   sortedLibrary.forEach((book) => {
+    // create a card <div> html element with class .book-card
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("book-card")
 
-       // Sorting background color based on read status
-       if (book.read === "Completed") {
-        cardDiv.style.backgroundColor = "#1e5d2f";
-      } else if (book.read === "In Progress") {
-        cardDiv.style.backgroundColor = "#b17e07"; 
-      } else if (book.read === "To Read") {
-        cardDiv.style.backgroundColor = "#8b0000";
-      }
+    // Sorting background color based on read status
+    if (book.read === "Completed") {
+      cardDiv.style.backgroundColor = "#1e5d2f";
+    } else if (book.read === "In Progress") {
+      cardDiv.style.backgroundColor = "#b17e07"; 
+    } else if (book.read === "To Read") {
+      cardDiv.style.backgroundColor = "#8b0000";
+    }
   
   // card content
     cardDiv.innerHTML = `
@@ -96,6 +92,7 @@ function displayBooks() {
 
     `;
 
+    // hide pages read if 'complete' or 'to read'
     if (book.read !== "In Progress") {
       const pagesSection = cardDiv.querySelector(".pages-section");
       if (pagesSection) pagesSection.style.display = "none";
@@ -176,9 +173,9 @@ function displayBooks() {
       bookForm.addEventListener("submit", editSubmitHandler);
     });
   });
+  //forEach loop ends here 
 
   // pages hover listener / function 
-  // STILL NEEDS WORK
   const pageHoverIcons = document.querySelectorAll('.pages-hover');
 
   pageHoverIcons.forEach(icon => {
@@ -202,13 +199,13 @@ function displayBooks() {
       }
     });
   });
-  // STILL NEEDS WORK
+  
 }
-
+//Display books function ends here
 
 displayBooks();
 
-
+// add a function to Book prototype using Book.prototype
 // Book prototype function
 Book.prototype.quickInfo = function() {
   if (this.read !== "In Progress") {
@@ -227,7 +224,7 @@ newBookButton.addEventListener("click", () => {
   bookDialog.showModal();
 })
 
-// Pages read enable/disable
+// Pages read form input enable/disable
 const pagesInput = document.getElementById("pages");
 const readStatusRadios = document.querySelectorAll('input[name="readStatus"]');
 
